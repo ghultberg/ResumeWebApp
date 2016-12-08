@@ -51,6 +51,23 @@ router.get('/insert', function(req, res){
     }
 });
 
+router.get('/edit', function(req, res){
+    if(req.query.resume_id == null) {
+        res.send('A resume id is required');
+    }
+    else {
+        resume_dal.edit(req.query.resume_id, function(err, result) {
+            res.render('resume/resumeUpdate', {resume: result[0][0], skill: result[1], company:result[1], school:result[1]});
+        });
+    }
+
+});
+
+router.get('/update', function(req, res) {
+    resume_dal.update(req.query, function(err, result){
+        res.redirect(302, '/resume/all');
+    });
+});
 
 // View the resume for the given id
 router.get('/', function(req, res){
